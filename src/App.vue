@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <vheader></vheader>
     <div class="tab">
       <div class="tab-item">商品</div>
       <div class="tab-item">评论</div>
@@ -10,10 +10,10 @@
 </template>
 
 <script>
-  import v-header from './components/header/header';
+  import vheader from './components/header/header';
   export default {
     components:{
-        v-header
+        vheader
     }
   };
 </script>
