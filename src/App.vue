@@ -6,6 +6,14 @@
       <div class="tab-item">评论</div>
       <div class="tab-item">商家</div>
     </div>
+    <div>
+      <p>
+        <router-link to="/goods">/goods</router-link>
+        <router-link to="/ratings">/ratings</router-link>
+        <router-link to="/seller">/seller</router-link>
+      </p>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -13,20 +21,20 @@
   import vheader from './components/header/header';
   export default {
     components:{
-        vheader
+      vheader
     }
   };
 </script>
 
 <style type="text/css">
-#app .tab{
-  display: flex;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-}
-#app .tab .tab-item{
-  flex:1;
-  text-align: center;
-}
+  #app .tab{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+  }
+  #app .tab .tab-item{
+    flex:1;
+    text-align: center;
+  }
 </style>
