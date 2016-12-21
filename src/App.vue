@@ -28,10 +28,10 @@
     },
     created() {
       axios.get('/api/seller')
-        .then(function (response) {
+      .then(function (response) {
           console.log(response);
-        })
-        .catch(function (error) {
+      })
+      .catch(function (error) {
           console.log(error);
         });
     },
@@ -50,15 +50,7 @@
     /*border-bottom: 1px solid rgba(7,17,27,0.1);*/
     position: relative;
   }
-  #app .tab:after{
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid rgba(7,17,27,0.1);
-    content: ' ';
-  }
+
   #app .tab .tab-item{
     flex:1;
     text-align: center;

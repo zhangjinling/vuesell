@@ -2,8 +2,8 @@
 	<div>
 		goods
 		<br/>
-		1px:1.伪类（ #app .tab:after），2.缩放media-query，，， 
-
+		1px:1.伪类（ #app .tab:after），2.缩放media-query.
+		<i class="icon-add_circle"></i>
 	</div>
 </template>
 <script type="text/javascript">

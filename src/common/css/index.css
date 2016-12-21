@@ -1,1 +1,3 @@
-@import "./base.css"
+@import "./base.css";
+@import "./mixin.css";
+@import "../fonts/font.css";
