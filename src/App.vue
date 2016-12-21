@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <vheader></vheader>
+    <vheader :seller="seller"></vheader>
     <div class="tab border-1px">
         <div class="tab-item">
           <router-link to="/goods">商品</router-link>
@@ -18,8 +18,8 @@
 
 <script>
   import vheader from 'components/header/header';
-  import axios from 'axios';
-
+  // import axios from 'axios';
+  const ERR_OK = 0;
   export default {
     data() {
       return {
@@ -27,13 +27,13 @@
       }
     },
     created() {
-      axios.get('/api/seller')
-      .then(function (response) {
-          console.log(response);
-      })
-      .catch(function (error) {
-          console.log(error);
-        });
+      this.$http.get('/api/seller').then((response) => {
+        if (response.body.errno == ERR_OK) {
+            this.seller = response.body.data;
+        }
+      }, (response) => {
+        console.log(response)
+      });
     },
     components:{
       vheader

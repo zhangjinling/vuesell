@@ -4,6 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import VueRouter from 'vue-router';
 import axios from 'axios';
+import vueResource from 'vue-resource'
 import goods from 'components/goods/goods';
 import ratings from 'components/ratings/ratings';
 import seller from 'components/seller/seller';
@@ -11,7 +12,8 @@ import seller from 'components/seller/seller';
 import 'common/css/index.css';
 
 Vue.use(VueRouter);
-Vue.use(axios);
+// Vue.use(axios);
+Vue.use(vueResource);
 //定义路由
 const routes = [
 	{ path: '/goods', component: goods },
