@@ -34,7 +34,6 @@ export default {
     this.$http.get('/api/seller').then((response) => {
         this.seller = response.body.data;
     }, (response) => {
-
     });
   }
 }
@@ -42,7 +41,6 @@ export default {
 
 <style lang="stylus" type="stylesheet/stylus">
 @import "./common/stylus/mixin.styl"
-
   .tab
     display: flex
     width: 100%
