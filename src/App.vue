@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import vheader from 'components/header/header'
+import vheader from 'components/header/header';
+const ERR_OK = 0;
 export default {
   data() {
     return {
@@ -32,8 +33,11 @@ export default {
   },
   created: function () {
     this.$http.get('/api/seller').then((response) => {
+      if (response.body.errno == ERR_OK) {
         this.seller = response.body.data;
+      }
     }, (response) => {
+
     });
   }
 }

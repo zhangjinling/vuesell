@@ -8,4 +8,16 @@
 		&::after
 			-webkit-transform: scaleY(0.5)
 			transform:scaleY(0.5)
-			
+body, html
+	line-height: 1
+	font-weight: 200
+	font-family: SimHe
+.clearfix
+	display:inline-block
+	&:after
+		display: block
+		content: '.'
+		height: 0
+		line-height: 0
+		clear: both
+		visibility: hidden
