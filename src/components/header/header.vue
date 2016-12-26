@@ -38,22 +38,14 @@
 						<div class="star-wrapper">
 							<star :size="48" :score="seller.score"></star>
 						</div>
-						<div class="title">
-							<div class="line"></div>
-							<div class="text">优惠信息</div>
-							<div class="line"></div>
-						</div>
+						<vtitlewithline word="优惠信息"></vtitlewithline>
 						<ul v-if="seller.supports" class="supports">
 							<li class="support-item" v-for="item in seller.supports">
 								<span class="icon" :class="classMap[item.type]"></span>
 								<span class="text">{{item.description}}</span>
 							</li>
 						</ul>
-						<div class="title">
-							<div class="line"></div>
-							<div class="text">商家公告</div>
-							<div class="line"></div>
-						</div>
+						<vtitlewithline word="商家公告"></vtitlewithline>
 						<div class="bulletin">
 							<p class="content">{{seller.bulletin}}</p>
 						</div>
@@ -68,14 +60,16 @@
 </template>
 <script type="text/javascript">
 	import star from 'components/star/star';
+	import vtitlewithline from 'components/titlewithline/titlewithline';
+
 	export default{
 		data() {
 			return {
-				detailShow:false
+				detailShow:false,
 			}
 		},
 		components:{
-			star
+			star,vtitlewithline
 		},
 		methods: {
 			showDetail() {
@@ -102,13 +96,6 @@
 		position: relative
 		color: white
 		overflow: hidden
-		transition: all 0.5s
-		&.v-enter-active
-			opacity: 1
-			background:rgba(7,17,27,0.5)
-		&.v-enter,&.v-leave
-			opacity: 0
-			background:rgba(7,17,27,0)
 		.content-warpper
 			position: relative
 			padding: 24px 12px 18px 24px
@@ -227,6 +214,14 @@
 			height: 100%
 			overflow: auto
 			background: rgba(7,17,27,0.8)
+			&.fade-enter-active
+				transition: opacity 0.5s
+			&.fade-leave-active 
+				transition: opacity 0.5s
+			&.fade-enter
+				opacity: 0
+			&.fade-leave-active 
+				opacity: 0
 			.detail-wrapper
 				width: 100%
 				min-height:100%
@@ -242,19 +237,6 @@
 						margin-top: 18px
 						padding: 2px 0
 						text-align: center
-					.title	
-						display: flex
-						width: 80%
-						margin: 28px auto 24px auto
-						.line
-							flex: 1
-							position: relative
-							top: -6px
-							border-bottom: 1px solid rgba(255,255,255,0.2)
-						.text
-							padding: 0 12px
-							font-size: 14px
-							font-weight: 700
 					.supports
 						width: 80%
 						margin: 0 auto
