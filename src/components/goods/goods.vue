@@ -2,7 +2,7 @@
 	<div class="goods">
 		<div class="menu-wrapper" ref="menuWrapper">
 			<ul>
-				<li v-for="item in goods" class="menu-item">
+				<li v-for="(item, $index) in goods" class="menu-item" :class="{'current':currentIndex === $index}" @click="selectMenu($index,$event)">
 					<span class="text border-1px">
 						<span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
 						{{item.name}}
@@ -12,7 +12,7 @@
 		</div>
 		<div class="foods-wrapper" ref="foodsWrapper">
 			<ul>
-				<li v-for="item in goods" class="food-list">
+				<li v-for="item in goods" class="food-list food-list-hook" >
 					<h1 class="title">{{item.name}}</h1>
 					<ul>
 						<li class="food-item border-1px" v-for="food in item.foods">
@@ -23,8 +23,7 @@
 								<h2 class="name">{{food.name}}</h2>
 								<p class="desc">{{food.description}}</p>
 								<div class="extra">
-									<span class="count">月售{{food.sellCount}}份</span>
-									<span>好评率{{food.rating}}%</span>
+									<span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
 								</div>
 								<div class="price">
 									<span class="now">￥{{food.price}}</span>
@@ -49,16 +48,34 @@
 		},
 		data() {
 			return {
-				goods:[]
+				goods:[],
+				listHeight:[],
+				scrollY:0
 			};
+		},
+		computed:{
+			currentIndex() {
+				for (var i = 0; i < this.listHeight.length; i++) {
+					let height1 = this.listHeight[i];
+					let height2 = this.listHeight[i + 1];
+					if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+						return i;
+					}
+				}
+				return 0;
+			}
 		},
 		created() {
 			this.$http.get('/api/goods').then((response) => {
 				if (response.body.errno == ERR_OK) {
 					this.goods = response.body.data
 				};
+				//dom更新完毕
 				this.$nextTick(() => {
+					//初始化滚动条
 					this._initScroll();
+					//计算高度
+					this._calculateHeight();
 				});
 			}, (response) => {
 
@@ -66,10 +83,38 @@
 			this.classMap = ['decrease','discount','special','invoice','guarantee'];
 		},
 		methods: {
-			_initScroll(){
-				// console.log(this.$refs.menuWrapper);
-				this.menuScroll = new BScroll(this.$refs.menuWrapper,{})
-				this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{})
+			selectMenu($index,$event) {
+				if (!$event._constructed) {
+					return;
+				}
+				let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+				let el = foodList[$index];
+				console.log(el)
+				this.foodsScroll.scrollToElement(el,500);
+
+			},
+			_initScroll() {
+				this.menuScroll = new BScroll(this.$refs.menuWrapper,{
+					click: true
+				});
+				this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+					probeType: 3
+				});
+				//bacroll 申出来的滚动位置事件
+				this.foodsScroll.on('scroll', (pos) => {
+					this.scrollY =Math.abs(Math.round(pos.y));
+				});
+			},
+			_calculateHeight() {
+				let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+				let height = 0;
+				this.listHeight.push(height);
+				for (let i = 0; i < foodList.length; i++) {
+					let item = foodList[i];
+					height += item.clientHeight;
+					this.listHeight.push(height);
+
+				};
 			}
 		}
 	}
@@ -94,6 +139,13 @@
 				width: 56px
 				line-height: 14px
 				padding: 0 12px
+				&.current
+					position: relative
+					margin-top: -1px
+					font-weight: 700
+					background: #fff
+					.text
+						border-none()
 				.icon
 					display: inline-block
 					height: 12px
@@ -153,6 +205,7 @@
 						color: rgb(147,153,159)
 					.desc
 						margin-bottom: 8px
+						line-height: 12px
 					.extra
 						.count
 							margin-right:12px
