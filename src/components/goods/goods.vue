@@ -29,18 +29,22 @@
 									<span class="now">￥{{food.price}}</span>
 									<span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
 								</div>
+								<div class="cartcontent-wrapper">
+									<cartcontrol :food="food"></cartcontrol>
+								</div>
 							</div>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
-		<shopcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"></shopcart>
+		<shopcart :selectFoods="selectFoods" :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"></shopcart>
 	</div>
 </template>
 <script type="text/javascript">
 	import BScroll from 'better-scroll';
 	import shopcart from 'components/shopcart/shopcart';
+	import cartcontrol from 'components/cartcontrol/cartcontrol';
 	const ERR_OK = 0;
 	export default{
 		props: {
@@ -49,7 +53,8 @@
 			}
 		},
 		components: {
-			shopcart
+			shopcart,
+			cartcontrol
 		},
 		data() {
 			return {
@@ -68,6 +73,18 @@
 					}
 				}
 				return 0;
+			},
+			selectFoods() {
+				let foods = [];
+				this.goods.forEach((good) => {
+					good.foods.forEach((food) => {
+						if (food.count) {
+							foods.push(food);
+						};
+					})
+				});
+				console.log(foods);
+				return foods;
 			}
 		},
 		created() {
@@ -103,7 +120,9 @@
 					click: true
 				});
 				this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
-					probeType: 3
+					probeType: 3,
+					click: true
+
 				});
 				//bacroll 申出来的滚动位置事件
 				this.foodsScroll.on('scroll', (pos) => {
@@ -225,6 +244,11 @@
 							text-decoration: line-through
 							font-size: 10px
 							color: rgb(147,153,159)
+					.cartcontent-wrapper
+						position: absolute
+						right: 0
+						bottom: 12px
+
 
 
 
